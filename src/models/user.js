@@ -60,6 +60,15 @@ userSchema.statics.findByCredentials = async (email, password)=>{
     return user
 } 
 
+userSchema.methods.toJSON = function(){
+    const user = this 
+    const userobject = user.toObject()
+    delete userobject.password
+    delete userobject.tokens
+    return userobject
+    
+}
+
 userSchema.methods.generateToken = async function(){
     const user = this
     const token = jwt.sign({_id:user._id.toString()},'taskmanager')
